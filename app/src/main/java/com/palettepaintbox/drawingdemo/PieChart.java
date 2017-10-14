@@ -1,6 +1,5 @@
 package com.palettepaintbox.drawingdemo;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -25,7 +24,7 @@ public class PieChart extends Drawable {
     private View view;
 
 
-    public PieChart(Context c, View v, String[] data_names, int[] data_values, int[] color_values) {
+    public PieChart(View v, String[] data_names, int[] data_values, int[] color_values) {
         this.view = v;
         this.data_values = data_values;
         this.color_values = color_values;
@@ -36,15 +35,14 @@ public class PieChart extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        //screen width & height
-        int view_w = view.getWidth();
+        //screen height
         int view_h = view.getHeight();
 
         int left_edge = 0;
         int top_edge = 0;
         int right_edge = 400;
         int bottom_edge = 400;
-        //chart area rectangle
+        //chart area square
         RectF arc_bounds = new RectF(
                 left_edge,
                 top_edge,
@@ -57,62 +55,63 @@ public class PieChart extends Drawable {
         for (int datum : data_values)
             value_sum += datum;
 
-        float startAngle = 0;
+        float start_angle = 0;
         int i = 0;
 
         for (int datum : data_values) {
             if (datum == 0) continue;
 
             //calculate start & end angle for each data value
-            float endAngle = value_sum == 0 ? 0 : 360 * datum / (float) value_sum;
-            float newStartAngle = startAngle + endAngle;
+            float end_angle = value_sum == 0 ? 0 : 360 * datum / (float) value_sum;
+            float new_start_angle = start_angle + end_angle;
 
 
-            int flickr_pink = color_values[i % color_values.length];
-            paint.setColor(flickr_pink);
+            int current_color = color_values[i % color_values.length];
+            paint.setColor(current_color);
             paint.setAntiAlias(true);
             paint.setStyle(Paint.Style.FILL);
             paint.setStrokeWidth(0.5f);
 
             //gradient fill color
-            LinearGradient linearGradient = new LinearGradient(arc_bounds.left, arc_bounds.top, arc_bounds.right,arc_bounds.bottom, flickr_pink, Color.WHITE, Shader.TileMode.CLAMP);
-            paint.setShader(linearGradient);
+            LinearGradient linear_gradient = new LinearGradient(arc_bounds.left, arc_bounds.top, arc_bounds.right,arc_bounds.bottom, current_color, Color.WHITE, Shader.TileMode.CLAMP);
+            paint.setShader(linear_gradient);
 
             //draw fill arc
-            canvas.drawArc(arc_bounds, startAngle, endAngle, true, paint);
+            canvas.drawArc(arc_bounds, start_angle, end_angle, true, paint);
 
-            Paint linePaint = new Paint();
-            linePaint.setAntiAlias(true);
-            linePaint.setStyle(Paint.Style.STROKE);
-            linePaint.setStrokeJoin(Paint.Join.ROUND);
-            linePaint.setStrokeCap(Paint.Cap.ROUND);
-            linePaint.setStrokeWidth(0.5f);
-            linePaint.setColor(Color.BLACK);
+            Paint line_paint = new Paint();
+            line_paint.setAntiAlias(true);
+            line_paint.setStyle(Paint.Style.STROKE);
+            line_paint.setStrokeJoin(Paint.Join.ROUND);
+            line_paint.setStrokeCap(Paint.Cap.ROUND);
+            line_paint.setStrokeWidth(0.5f);
+            line_paint.setColor(Color.BLACK);
 
             //draw border arc
-            canvas.drawArc(arc_bounds, startAngle, endAngle, true, linePaint);
+            canvas.drawArc(arc_bounds, start_angle, end_angle, true, line_paint);
 
-            int barStartX = 50;
-            int barWidth = 20;
+            int bar_start_x = 50;
+            int bar_width = 20;
             int padding_bottom = 20;
-            int barStartY = view_h-padding_bottom+(i-1)*2*barWidth;
+            int bar_start_y = view_h-padding_bottom+(i-1)*2*bar_width;
 
-            Rect barRect = new Rect(barStartX,barStartY,barStartX+barWidth,barStartY+barWidth);
+            Rect barRect = new Rect(bar_start_x,bar_start_y,bar_start_x+bar_width,bar_start_y+bar_width);
 
             //draw legend box
             canvas.drawRect(barRect, paint);
-            canvas.drawRect(barRect,linePaint);
+            canvas.drawRect(barRect,line_paint);
 
 
-            Paint textPaint = new Paint();
-            textPaint.setAntiAlias(true);
-            textPaint.setColor(Color.WHITE);
-            textPaint.setTextSize(30);
+            Paint text_paint = new Paint();
+            text_paint.setAntiAlias(true);
+            text_paint.setColor(Color.WHITE);
+            text_paint.setTextSize(30);
+
 
             //draw legend text
-            canvas.drawText(data_names[i], barStartX+2*barWidth, barStartY+barWidth, textPaint);
+            canvas.drawText(data_names[i], bar_start_x+2*bar_width, bar_start_y+bar_width, text_paint);
 
-            startAngle = newStartAngle;
+            start_angle = new_start_angle;
             i++;
         }
     }
@@ -123,7 +122,7 @@ public class PieChart extends Drawable {
     }
 
     @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+    public void setColorFilter(@Nullable ColorFilter color_filter) {
 
     }
 
