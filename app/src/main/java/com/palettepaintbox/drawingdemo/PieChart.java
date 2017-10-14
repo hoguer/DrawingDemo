@@ -38,6 +38,10 @@ public class PieChart extends Drawable {
         //screen height
         int view_h = view.getHeight();
 
+        int bar_start_x = 50;
+        int bar_width = 20;
+        int padding_bottom = 500;
+
         int left_edge = 0;
         int top_edge = 0;
         int right_edge = 400;
@@ -90,21 +94,18 @@ public class PieChart extends Drawable {
             //draw border arc
             canvas.drawArc(arc_bounds, start_angle, end_angle, true, line_paint);
 
-            int bar_start_x = 50;
-            int bar_width = 20;
-            int padding_bottom = 20;
             int bar_start_y = view_h-padding_bottom+(i-1)*2*bar_width;
 
-            Rect barRect = new Rect(bar_start_x,bar_start_y,bar_start_x+bar_width,bar_start_y+bar_width);
+            Rect bar_rect = new Rect(bar_start_x,bar_start_y,bar_start_x+bar_width,bar_start_y+bar_width);
 
             //draw legend box
-            canvas.drawRect(barRect, paint);
-            canvas.drawRect(barRect,line_paint);
+            canvas.drawRect(bar_rect, paint);
+            canvas.drawRect(bar_rect,line_paint);
 
 
             Paint text_paint = new Paint();
             text_paint.setAntiAlias(true);
-            text_paint.setColor(Color.WHITE);
+            text_paint.setColor(current_color);
             text_paint.setTextSize(30);
 
 
