@@ -42,6 +42,14 @@ public class PieChart extends Drawable {
         int bar_width = 20;
         int padding_bottom = 500;
 
+        Paint line_paint = new Paint();
+        line_paint.setAntiAlias(true);
+        line_paint.setStyle(Paint.Style.STROKE);
+        line_paint.setStrokeJoin(Paint.Join.ROUND);
+        line_paint.setStrokeCap(Paint.Cap.ROUND);
+        line_paint.setStrokeWidth(0.5f);
+        line_paint.setColor(Color.BLACK);
+
         int left_edge = 0;
         int top_edge = 0;
         int right_edge = 400;
@@ -70,7 +78,7 @@ public class PieChart extends Drawable {
             float new_start_angle = start_angle + end_angle;
 
 
-            int current_color = color_values[i % color_values.length];
+            int current_color = color_values[i];
             paint.setColor(current_color);
             paint.setAntiAlias(true);
             paint.setStyle(Paint.Style.FILL);
@@ -82,14 +90,6 @@ public class PieChart extends Drawable {
 
             //draw fill arc
             canvas.drawArc(arc_bounds, start_angle, end_angle, true, paint);
-
-            Paint line_paint = new Paint();
-            line_paint.setAntiAlias(true);
-            line_paint.setStyle(Paint.Style.STROKE);
-            line_paint.setStrokeJoin(Paint.Join.ROUND);
-            line_paint.setStrokeCap(Paint.Cap.ROUND);
-            line_paint.setStrokeWidth(0.5f);
-            line_paint.setColor(Color.BLACK);
 
             //draw border arc
             canvas.drawArc(arc_bounds, start_angle, end_angle, true, line_paint);

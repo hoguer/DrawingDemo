@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         //pie chart parameters
         int data_values[] = {20,10,25,5,15,25};
         int color_values[] = {Color.MAGENTA, Color.RED, Color.GREEN,Color.BLUE,Color.YELLOW,Color.CYAN};
-        String item_names[] = { "item 1", "item 2", "item 3", "item 4", "item 5","item 6"};
+        String item_names[] = { "Grape", "Strawberry Rhubarb", "Key Lime", "Blueberry", "Lemon","Other"};
 
         //get the ImageView
         ImageView imageView = (ImageView) findViewById(R.id.image_placeholder);
